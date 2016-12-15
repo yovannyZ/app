@@ -1,26 +1,16 @@
-<table id="example" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+<table id="table" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>USUARIO</th>
                 <th>ESTADO</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
-        <tfoot>
-            <tr>
-                <th>USUARIO</th>
-                <th>ESTADO</th>
-            </tr>
-        </tfoot>
+      
         <tbody>
-        	<?php
-        	foreach ($usuarios as $usuario) {
-        	?>
-        		<tr class="<?php echo ($usuario->estado=='INC')?'danger':'' ?>">
-	                <td><?=$usuario->usuario?></td>
-	                <td ><?=$usuario->estado?></td>
-            	</tr>
-            <?php
-        	}
-            ?>
         </tbody>
     </table>
+     <button type="button" class="btn btn-lg btn-success">Success</button>
+     <button type="button" class="btn btn-lg btn-success">Success</button>
+     <button type="button" class="btn btn-lg btn-success">Success</button>

@@ -11,7 +11,7 @@ class Login_model extends CI_Model{
          $this->db->select('*');
          $this->db->from('login');
          $this->db->where('usuario', $usuario);
-         $this->db->where('estado', 'ACT');
+         $this->db->where('estado', '0');
          $data = $this->db->get();
 
          if($data->num_rows() > 0){

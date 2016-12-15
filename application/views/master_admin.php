@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title><?= $titulo?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?=base_url('public/css/bootstrap.min.css')?>" rel="stylesheet">
@@ -166,35 +166,29 @@
         </nav>
 
         <div id="page-wrapper">
-
             <div class="container-fluid">
-
-                <!-- Page Heading -->
+            
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Bootstrap Elements
-                        </h1>
+                    <div class="col-md-12 ">
+                        <h3 class="page-header text-center" style="background:#6E6E6E;color:#fff;padding:15px">
+                            <?= $tituloPagina ?>
+                        </h3>
                         <ol class="breadcrumb">
                             <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                                <i class="fa fa-dashboard"></i>  <a href="index.html">Inicio</a>
                             </li>
                             <li class="active">
-                                <i class="fa fa-desktop"></i> Bootstrap Elements
+                                <i class="fa fa-desktop"></i> <?= $tituloPagina ?>
                             </li>
                         </ol>
                     </div>
                 </div>
-               
+                <div>
+                     <?php $this->load->view($vista) ?>
+                </div>
         </div>
-        <!-- /#page-wrapper -->
-        <div>
-            <?php $this->load->view($vista) ?>
-        </div>
-
     </div>
-    <!-- /#wrapper -->
-
+   
     <!-- jQuery -->
     <script src="<?=base_url('public/js/jquery.js')?>"></script>
 
@@ -207,11 +201,47 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="<?=base_url('public/js/bootstrap.min.js')?>"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-    </script>
+<?php
+if(isset($script)){
+?>
+
+<script type="text/javascript">
+
+var save_method; //for save method string
+var table;
+
+$(document).ready(function() {
+
+    //datatables
+    table = $('#table').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo site_url('usuario/getUsers')?>",
+            "type": "POST"
+        },
+
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [ -1 ], //last column
+            "orderable": false, //set not orderable
+        },
+        ],
+
+    });
+
+
+});
+</script>
+
+<?php
+}
+?>
 
 </body>
 
