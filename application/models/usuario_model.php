@@ -12,6 +12,9 @@ class Usuario_model extends CI_Model{
         return $data->result();
     }
 
-    public function getUser()
+    public function getUser($usuario){
+    	$login = new login_model();
+    	return $login->getUser($usuario);
+    }
 
 }

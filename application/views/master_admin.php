@@ -12,13 +12,16 @@
     <title>SB Admin - Bootstrap Admin Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url('public/css/bootstrap.min.css')?>" rel="stylesheet">
+    <link href="<?=base_url('public/css/bootstrap.min.css')?>" rel="stylesheet">
+
+     <!-- DataTable CSS -->
+    <link href="<?=base_url('public/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?php echo base_url('public/css/sb-admin.css')?>" rel="stylesheet">
+    <link href="<?=base_url('public/css/sb-admin.css')?>" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?php echo base_url('public/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet" type="text/css">
+    <link href="<?=base_url('public/font-awesome/css/font-awesome.min.css')?>" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -182,18 +185,33 @@
                         </ol>
                     </div>
                 </div>
-                <!-- /.row -->
+               
         </div>
         <!-- /#page-wrapper -->
+        <div>
+            <?php $this->load->view($vista) ?>
+        </div>
 
     </div>
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="<?php echo base_url('public/js/jquery.js')?>"></script>
+    <script src="<?=base_url('public/js/jquery.js')?>"></script>
+
+     <!-- jQuery DataTable-->
+    <script src="<?=base_url('public/js/query.dataTables.min.js')?>"></script>
+
+     <!-- js DataTable-->
+    <script src="<?=base_url('public/js/dataTables.bootstrap.min.js')?>"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url('public/js/bootstrap.min.js')?>"></script>
+    <script src="<?=base_url('public/js/bootstrap.min.js')?>"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
 
 </body>
 

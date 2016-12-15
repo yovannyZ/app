@@ -25,7 +25,7 @@ class Login extends CI_Controller{
 
         if($this->_validarUsuario($username)){
             if($this->_validarContrasena($contrasena)){
-                $this->load->view('master_admin');
+                redirect('usuario/index');
             }else{
                 $data['error'] = 'Contraseña incorrecta';
                 $this->load->view('master',$data);
