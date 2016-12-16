@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuario_model extends CI_Model{
 
@@ -66,31 +67,31 @@ class Usuario_model extends CI_Model{
 	}
 
     public function count_all(){
-		$this->db->from($this->table);
+		$this->db->from($this->tabla);
 		return $this->db->count_all_results();
 	}
 
-   public function get_by_id($id){
-		$this->db->from($this->table);
-		$this->db->where('id',$id);
+   public function getUser($id){
+		$this->db->from($this->tabla);
+		$this->db->where('usuario',$id);
 		$query = $this->db->get();
 
 		return $query->row();
 	}
 
-	public function save($data){
-		$this->db->insert($this->table, $data);
+	public function add($data){
+		$this->db->insert($this->tabla, $data);
 		return $this->db->insert_id();
 	}
 
 	public function update($where, $data){
-		$this->db->update($this->table, $data, $where);
+		$this->db->update($this->tabla, $data, $where);
 		return $this->db->affected_rows();
 	}
 
 	public function delete_by_id($id){
-		$this->db->where('id', $id);
-		$this->db->delete($this->table);
+		$this->db->where('usuario', $id);
+		$this->db->delete($this->tabla);
 	}
 
 
