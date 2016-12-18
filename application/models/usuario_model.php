@@ -17,6 +17,7 @@ class Usuario_model extends CI_Model{
 	{
 		
 		$this->db->from($this->tabla);
+		$this->db->where('estado',0);
 
 		$i = 0;
 	
@@ -73,7 +74,7 @@ class Usuario_model extends CI_Model{
 
    public function getUser($id){
 		$this->db->from($this->tabla);
-		$this->db->where('usuario',$id);
+		$this->db->where('id',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -89,9 +90,9 @@ class Usuario_model extends CI_Model{
 		return $this->db->affected_rows();
 	}
 
-	public function delete_by_id($id){
-		$this->db->where('usuario', $id);
-		$this->db->delete($this->tabla);
+	public function delete($where, $data){
+		$this->db->update($this->tabla, $data, $where);
+		return $this->db->affected_rows();
 	}
 
 

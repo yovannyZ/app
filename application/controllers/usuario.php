@@ -33,8 +33,8 @@ class Usuario extends CI_Controller{
 			$row[] = $usuario->estado;
 		
 			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$usuario->usuario."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$usuario->usuario."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$usuario->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="eliminar('."'".$usuario->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
 		
 			$data[] = $row;
 		}
@@ -91,13 +91,21 @@ class Usuario extends CI_Controller{
 		echo json_encode($data);
 	}
 
-		public function update(){
+	public function update(){
 		$this->_validate();
 		$data = array(
 				'usuario' => $this->input->post('usuario'),
 				'contrasena' => $this->input->post('contrasena'),
 			);
 		$this->Usuario_model->update(array('id' => $this->input->post('id')), $data);
+		echo json_encode(array("status" => TRUE));
+	}
+
+	public function delete(){
+		$data = array(
+				'estado' => 1
+			);
+		$this->Usuario_model->delete(array('id' => $this->input->post('idEliminar')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 

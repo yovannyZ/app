@@ -59,25 +59,42 @@ function save(){
     $('#btnSave').text('saving...'); //change button text
     $('#btnSave').attr('disabled',true); //set button disable 
     var url;
+    var modal;
+    var form;
 
+    
     if(save_method == 'add') {
         url = "add";
-    } else {
-        url = "update";
+        modal= "#modal_form";
+        form = "#form";
     }
+
+    if (save_method == 'update'){
+        url = "update";
+        modal= "#modal_form";
+        form = "#form";
+    }
+
+     if (save_method == 'delete'){
+        url = "delete";
+        modal= "#modal_formDelete";
+        form = "#formDelete";
+    }          
+    
 
     // ajax adding data to database
     $.ajax({
         url : url,
         type: "POST",
-        data: $('#form').serialize(),
+        data: $(form).serialize(),
         dataType: "JSON",
         success: function(data)
         {
 
             if(data.status) //if success close modal and reload ajax table
             {
-                $('#modal_form').modal('hide');
+
+                $(modal).modal('hide');
                 reload_table();
             }
             else
@@ -104,10 +121,12 @@ function save(){
         }
     });
 
-    function reload_table(){
+   
+}
+
+ function reload_table(){
         table.ajax.reload(null,false); //reload datatable ajax 
     }
-}
 
 function edit_person(id){
     save_method = 'update';
@@ -128,6 +147,31 @@ function edit_person(id){
             $('[name="contrasena"]').val(data.contrasena);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Usuario'); // Set title to Bootstrap modal title
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
+}
+
+function eliminar(id){
+    save_method = 'delete';
+    $('#formDelete')[0].reset(); // reset form on modals
+
+    //Ajax Load data from ajax
+    $.ajax({
+        url : "getUser/" + id,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+
+           $('[name="idEliminar"]').val(data.id);
+            $('[name="usuarioEliminar"]').val(data.usuario);
+            $('#modal_formDelete').modal('show'); // show bootstrap modal when complete loaded
+            $('.modal-title').text('Eliminar Usuario'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)

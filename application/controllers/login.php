@@ -25,6 +25,9 @@ class Login extends CI_Controller{
 
         if($this->_validarUsuario($username)){
             if($this->_validarContrasena($contrasena)){
+                $usuario = array(
+                    'usuario' => $this->usuario->usuario);
+                $this->session->set_userdata($usuario);
                 redirect('usuario/index');
             }else{
                 $data['error'] = 'Contraseña incorrecta';
@@ -52,5 +55,10 @@ class Login extends CI_Controller{
         } else{
             return false;
         }
+    }
+
+    public function cerrarSesion(){
+        $this->session->sess_destroy();
+        $this->index();
     }
 }
