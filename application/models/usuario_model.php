@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Usuario_model extends CI_Model{
 
     var $tabla = 'login';
-    var $orden_columna = array('usuario','estado');
+    var $orden_columna = array('usuario','estado','fecha_creacion','usuario_crea');
     var $columnas_busqueda = array('usuario','estado');
     var $orden = array('usuario' => 'desc');
 
@@ -13,11 +13,16 @@ class Usuario_model extends CI_Model{
         $this->load->database();
     }
 
-    private function _get_datatables_query()
+    private function _get_datatables_query($opcion) // $opcion 0 = activos , $opcion 1 = inactivos
 	{
 		
 		$this->db->from($this->tabla);
-		$this->db->where('estado',0);
+		if($opcion == 0){
+			$this->db->where('estado','ACT');
+		}else{
+			$this->db->where('estado','ANU');
+		}
+		
 
 		$i = 0;
 	
@@ -53,22 +58,27 @@ class Usuario_model extends CI_Model{
 	}
 		
 
-    public function getUsers(){
-        $this->_get_datatables_query();
+    public function getUsers($opcion){ // $opcion 0 = activos , $opcion 1 = inactivos
+        $this->_get_datatables_query($opcion);
         if($_POST['length'] != -1) 
         $this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
     }
 
-    function count_filtered(){
-		$this->_get_datatables_query();
+    function count_filtered($opcion){  // $opcion 0 = activos , $opcion 1 = inactivos
+		$this->_get_datatables_query($opcion);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-    public function count_all(){
+    public function count_all($opcion){  // $opcion 0 = activos , $opcion 1 = inactivos
 		$this->db->from($this->tabla);
+		if($opcion == 0){
+			$this->db->where('estado','ACT');
+		}else{
+			$this->db->where('estado','ANU');
+		}
 		return $this->db->count_all_results();
 	}
 

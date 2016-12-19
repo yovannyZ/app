@@ -16,7 +16,6 @@ if(!$this->session->has_userdata('usuario')){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title><?= $titulo?></title>
 
     <!-- Bootstrap Core CSS -->
@@ -40,7 +39,7 @@ if(!$this->session->has_userdata('usuario')){
 
 </head>
 
-<body>
+<body  onload="nobackbutton();">
 
     <div id="wrapper">
 
@@ -54,7 +53,7 @@ if(!$this->session->has_userdata('usuario')){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin</a>
+                <a class="navbar-brand" href="index.html" id="titulo"></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -208,8 +207,32 @@ if(!$this->session->has_userdata('usuario')){
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?=base_url('public/js/bootstrap.min.js')?>"></script>
+  
+    <script>
 
+    $(document).ready(function() {
+   $.ajax({
+        url : "<?=base_url('acceso/get')?>",
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+            $('#titulo').text(data.descripcion);
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error get data from ajax');
+        }
+    });
+});
 
+    function nobackbutton(){
+        window.location.hash="no-back-button";
+        window.location.hash="Again-No-back-button" //chrome
+        window.onhashchange=function(){window.location.hash="no-back-button";}
+	
+     }
+    </script>
 <?php
 if(isset($script)){
 ?>
@@ -218,7 +241,6 @@ if(isset($script)){
 <?php  
 }
 ?>
-
 </body>
 
 </html>

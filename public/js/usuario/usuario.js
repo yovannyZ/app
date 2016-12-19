@@ -1,6 +1,7 @@
 
 var save_method; //for save method string
 var table;
+var tableInactivos;
 
 $(document).ready(function() {
 
@@ -14,6 +15,28 @@ $(document).ready(function() {
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "get",
+            "type": "POST"
+        },
+
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [ -1 ], //last column
+            "orderable": false, //set not orderable
+        },
+        ],
+
+    });
+
+    tableInactivos = $('#table_usuarios_eliminados').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "orden": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "getUserEliminados",
             "type": "POST"
         },
 
@@ -93,7 +116,6 @@ function save(){
 
             if(data.status) //if success close modal and reload ajax table
             {
-
                 $(modal).modal('hide');
                 reload_table();
             }
@@ -181,4 +203,53 @@ function eliminar(id){
     });
 }
 
+function UsuariosEliminados(){
+   save_method = 'add';
+    $('#form_usuarios_eliminados')[0].reset(); // reset form on modals
+    $('#modal_form_usuarios_eliminados').modal('show'); // show bootstrap modal
+    $('.modal-title').text('Usuarios Eliminados'); // Set Title to Bootstrap modal title   
+}
+
+function activar_usuario(id){
+
+    $.ajax({
+        url : "getUser/" + id,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+            $('[name="idUsuarioInactivo"]').val(data.id);
+            var respuesta = confirm('Estas seguro que deseas activar este usuario: ' + data.usuario);
+            if(respuesta == true){
+                $.ajax({
+                url : 'activarUSuario',
+                type: "POST",
+                data: $('#form_usuarios_eliminados').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+
+                    if(data.status) //if success close modal and reload ajax table
+                    {
+                        $('#modal_form_usuarios_eliminados').modal('hide'); // show bootstrap modal
+                        tableInactivos.ajax.reload(null,false);
+                        table.ajax.reload(null,false);
+                    }
+                
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error al activar el usuario');
+                }
+                });
+            }
+            
+        },
+
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error al obtener el usuario');
+        }
+    });
+}
 

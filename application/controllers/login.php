@@ -21,7 +21,7 @@ class Login extends CI_Controller{
     public function validar(){
         $data=$this->data;
         $username = $this->input->post('username');
-        $contrasena = $this->input->post('password');
+        $contrasena =urlencode($this->input->post('password'));
 
         if($this->_validarUsuario($username)){
             if($this->_validarContrasena($contrasena)){
@@ -40,7 +40,9 @@ class Login extends CI_Controller{
     }
 
     private function _validarContrasena($contrasena){
-        if($this->usuario->contrasena == $contrasena){
+        
+        $hash_contrasena=($this->usuario->contrasena);
+        if(hash_equals($hash_contrasena,crypt($contrasena,$hash_contrasena))){
             return true;
         }else{
             return false;
